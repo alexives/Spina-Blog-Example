@@ -1,0 +1,26 @@
+.filters
+  = link_to 'Nieuwe post', spina.new_admin_blogpost_path, class: 'button button-primary', data: {icon: 't'}
+
+.table-container
+  %table.table
+    %thead
+      %tr
+        %th Titel
+        %th Datum
+        %th
+
+    %tbody
+      - if @blogposts.any?
+        - @blogposts.each do |blogpost|
+          %tr
+            %td
+              %strong= link_to blogpost.title, spina.edit_admin_blogpost_path(blogpost)
+            %td=l blogpost.created_at, format: '%d %B %Y - %H:%M'
+            %td.nowrap.align-right
+              = link_to spina.edit_admin_blogpost_path(blogpost), class: 'button button-link' do
+                = icon('pencil-outline')
+
+      - else
+        %tr
+          %td.align-center{colspan: 3}
+            %em Er zijn nog geen berichten op je blog

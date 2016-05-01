@@ -1,0 +1,52 @@
+= form_for [:admin, @blogpost], html: {autocomplete: "off"} do |f|
+  - content_for :notification_alert do
+    = error_explanation!(@blogpost)
+
+  #page_content
+    .table-container
+      %table.table.table-form
+        %tr
+          %td
+            Titel
+          %td
+            = f.text_field :title
+
+        %tr
+          %td
+            Foto
+          %td
+            = link_to spina.photo_select_admin_photos_path(f.object_name, selected_photo_id: (f.object.photo_id if f.object.photo_id.present?), hidden_field_id: 'photo_id'), remote: true, class: "media_picker" do
+              - if f.object.photo && f.object.photo.file.present?
+                .placeholder.pull-right
+                  %span.button.button-small.button-round
+                    %i.icon.icon-dots
+                    =t 'spina.pages.photo_picker'
+                .image
+                  = image_tag f.object.photo.file.thumb
+              - else
+                .placeholder
+                  %span.button.button-small.button-round
+                    %i.icon.icon-dots
+                    =t 'spina.pages.photo_picker'
+
+              = f.hidden_field :photo_id, data: {hidden_field_id: 'photo_id'}
+
+        %tr
+          %td
+            Beschrijving
+          %td
+            = f.text_area :description
+
+        %tr
+          %td
+            Inhoud
+          %td
+            = render 'spina/admin/shared/rich_text_field', f: f, field: :content
+
+  %button.button.button-primary{type: 'submit', data: {icon: 'o'}}
+    Opslaan
+
+  = link_to 'Annuleren', admin_blogposts_path, class: 'button button-link'
+
+  - unless @blogpost.new_record?
+    .pull-right= link_to 'Verwijderen', admin_blogpost_path(@blogpost), method: :delete, confirm: 'Are you sure?', class: 'button button-link button-danger'

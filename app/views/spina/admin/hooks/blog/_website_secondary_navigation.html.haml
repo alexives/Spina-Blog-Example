@@ -1,0 +1,5 @@
+%li{ class: ('active' if current_admin_path.start_with?('/blogposts')) }
+  = link_to spina.admin_blogposts_path do
+    %i.icon.icon-pencil-outline
+    = plugin.name
+    %small Hier kun je blogposts aanmaken
