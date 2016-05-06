@@ -1,6 +1,6 @@
 module Spina
   class Blogpost < ActiveRecord::Base
-    attr_accessor :old_slug
+    attr_accessor :old_materialized_path
 
     belongs_to :photo
 
